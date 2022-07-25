@@ -8,20 +8,28 @@ build: [
   ["bash" "-ex" "configure.sh" version]
 ]
 depexts: [
-  ["llvm"] {os-distribution = "homebrew" & os = "macos"}
-  ["llvm"] {os-distribution = "macports" & os = "macos"}
+  ["llvm"] {os = "macos"}
+  ["llvm" "clang"] {os-distribution = "arch"}
   ["libclang-dev" "llvm-dev"] {os-family = "debian"}
   ["clang-dev" "llvm-dev" "clang-static"] {os-distribution = "alpine"}
   ["clang-devel" "llvm-devel" "llvm-static" "zlib-devel"]
     {os-distribution = "centos"}
   ["clang-devel" "llvm-devel" "zlib-devel" "redhat-rpm-config"]
     {os-distribution = "fedora"}
+  ["clang-devel" "llvm-devel" "llvm-static" "zlib-devel"]
+    {os-distribution = "ol" & os-version >= "8"}
   ["llvm-clang-devel"] {os-family = "suse"}
-  ["devel/llvm11"] {os = "freebsd"}
+  ["devel/llvm13"] {os = "freebsd"}
   ["sys-devel/clang"] {os-distribution = "gentoo"}
 ]
+x-ci-accept-failures: [
+  "oraclelinux-7" # clang-devel is not available
+  "alpine-3.13" # unavailable system package 'llvm-dev'
+  "alpine-3.14" # unavailable system package 'llvm-dev'
+  "opensuse-15.3" # unavailable system package 'llvm-clang-devel'
+]
 extra-files: [[
-  "configure.sh" "sha512=2d7b2e3062e60dbfcdaa05c6ed130e19d7fc7d2f84d50b309d148fa499f785353fcf5bb5b404617197966824c62bd8496426f684feb977c91c41ca6cfe482aaa"
+  "configure.sh" "sha512=cf8fa28425093e130e701ff10652459fbe176163da37c726e5037b6a9f8ae4050af382ba4b426ea2fd839acdfdf03a9e1eb2eb14c2d74470cd5c0cf1071213c9"
 ]]
-synopsis: "Virtual package relying on the installation of llvm and clang libraries (any version)"
+synopsis: "Virtual package relying on the installation of llvm and clang libraries (<= 14.0.x)"
 flags: conf
